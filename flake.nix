@@ -5,6 +5,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # NOTE: change channel in gitlab runner when updating this
     nixpkgs-master.url = "github:nixos/nixpkgs";
 
+    disko.url = "github:nix-community/disko";
+
     nix-tun = {
       url = "github:nix-tun/nixos-modules";
       inputs.nixpkgs.follows = "nixpkgs"; # uses unstable internally

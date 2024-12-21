@@ -18,8 +18,6 @@
 
       boot.loader.grub = {
         enable = true;
-        device = "/dev/sda"; # FIX:set to nodev when deploying to teefax
-        efiSupport = false; # FIX:set to true when deploying to teefax
       };
     };
 }

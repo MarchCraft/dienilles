@@ -9,9 +9,11 @@
   imports = [
     ./hardware-configuration.nix
     ../locale.nix
+    ./disko-config.nix
 
     inputs.sops.nixosModules.sops
     inputs.nix-tun.nixosModules.nix-tun
+    inputs.disko.nixosModules.disko
 
     outputs.nixosModules.dienilles
   ];
