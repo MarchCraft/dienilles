@@ -86,6 +86,10 @@
             hostPath = "/var/log";
             mountPoint = "/var/log/other";
           };
+          "resolv" = {
+            hostPath = "/etc/resolv.conf";
+            mountPoint = "/etc/resolv.conf";
+          };
         };
 
         specialArgs = {

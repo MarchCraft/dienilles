@@ -54,6 +54,28 @@
 
       nixosModules.dienilles = import ./mod/nixos;
 
+      colmena = {
+        meta = {
+          nixpkgs = import nixpkgs { system = "x86_64-linux"; };
+          specialArgs = {
+            inherit inputs outputs;
+            pkgs-master = import nixpkgs-master {
+              system = "x86_64-linux";
+            };
+          };
+        };
+
+        defaults.deployment = {
+          buildOnTarget = true;
+          targetUser = null;
+        };
+
+        dienilles = {
+          deployment.targetHost = "dev.dienilles.de";
+          imports = [ ./nixos/dienilles ];
+        };
+      };
+
       nixosConfigurations.dienilles = lib.nixosSystem {
         specialArgs = {
           inherit inputs outputs;
@@ -79,6 +101,7 @@
             nativeBuildInputs = with pkgs; [
               (callPackage inputs.sops { }).sops-import-keys-hook
               nixos-rebuild
+              colmena
             ];
           };
         }

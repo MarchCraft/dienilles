@@ -11,7 +11,7 @@
     enable = true;
     environmentFile = host-config.sops.secrets.vaultwarden.path;
     config = {
-      DOMAIN = "https://vaultwarden.dienilles.de";
+      DOMAIN = "https://vaultwarden.dev.dienilles.de";
       SIGNUPS_ALLOWED = false;
       ROCKET_ADDRESS = "0.0.0.0";
       ROCKET_PORT = 8222;

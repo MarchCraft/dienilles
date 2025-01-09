@@ -8,5 +8,6 @@
     ./ntfy
     ./traefik.nix
     ./node_exporter
+    ./mailcow
   ];
 }

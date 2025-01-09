@@ -1,19 +1,20 @@
 { lib
+, modulesPath
 , ...
 }:
 
 {
-  imports = [ ];
+  imports =
+    [
+      (modulesPath + "/profiles/qemu-guest.nix")
+    ];
 
-  boot.initrd.availableKernelModules = [
-    "ata_piix"
-    "mptspi"
-    "sd_mod"
-    "sr_mod"
-  ];
+  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
+
+  fileSystems."/persist".neededForBoot = true;
 
   swapDevices = [ ];
 

@@ -26,10 +26,16 @@
   networking.nat = {
     enable = true;
     internalInterfaces = [ "ve-+" ];
-    externalInterface = "ens32"; #TODO:change on deploy
+    externalInterface = "enp1s0"; #TODO:change on deploy
     # Lazy IPv6 connectivity for the container
     enableIPv6 = true;
   };
+
+  virtualisation.docker = {
+    enable = true;
+    autoPrune.enable = true;
+  };
+  virtualisation.oci-containers.backend = "docker";
 
   virtualisation.vmware.guest.enable = true;
 
@@ -47,7 +53,7 @@
 
   dienilles.services.traefik.enable = true;
   dienilles.services.traefik.staticConfigPath = ../secrets/traefik_static;
-  dienilles.services.traefik.dashboardUrl = "traefik.dienilles.de";
+  dienilles.services.traefik.dashboardUrl = "traefik.dev.dienilles.de";
   dienilles.services.traefik.letsencryptMail = "felix@dienilles.de";
   dienilles.services.traefik.logging.enable = true;
 
@@ -56,14 +62,14 @@
 
   dienilles.services.authentik = {
     enable = true;
-    hostname = "auth.inphima.de";
+    hostname = "auth.dev.dienilles.de";
     envFile = ../secrets/authentik_env;
   };
 
   dienilles.services.prometheus = {
     enable = true;
-    hostname = "prometheus.dienilles.de";
-    grafanaHostname = "grafana.dienilles.de";
+    hostname = "prometheus.dev.dienilles.de";
+    grafanaHostname = "grafana.dev.dienilles.de";
     envFile = ../secrets/prometheus_env;
   };
 
@@ -74,12 +80,17 @@
   dienilles.services.vaultwarden = {
     enable = true;
     secretsFile = ../secrets/vaultwarden;
-    hostname = "vaultwarden.dienilles.de";
+    hostname = "vaultwarden.dev.dienilles.de";
   };
 
   dienilles.services.ntfy = {
     enable = true;
-    hostname = "ntfy.dienilles.de";
+    hostname = "ntfy.dev.dienilles.de";
+  };
+
+  dienilles.services.mailcow = {
+    enable = true;
+    webmailHostname = "mail.marchcraft.de";
   };
 
   security.pam.sshAgentAuth.enable = true;
