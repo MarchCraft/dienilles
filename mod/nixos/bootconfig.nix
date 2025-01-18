@@ -13,7 +13,7 @@
     in
     lib.mkIf opts.enable {
       boot.loader.systemd-boot.enable = false;
-      boot.loader.efi.canTouchEfiVariables = false; # FIX:set to true when deploying to teefax
+      boot.loader.efi.canTouchEfiVariables = true;
       boot.kernelParams = [ "quiet" ];
 
       boot.loader.grub = {

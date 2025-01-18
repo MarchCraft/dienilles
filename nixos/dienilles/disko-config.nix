@@ -74,21 +74,27 @@
         type = "mdadm";
         level = 1;
         content = {
-          type = "btrfs";
-          extraArgs = [ "-f" ]; # Override existing partition
-          subvolumes = {
-            "/root" = {
-              mountpoint = "/";
-            };
-            "/persist" = {
-              mountpoint = "/persist";
-            };
-            "/nix" = {
-              mountOptions = [ "noatime" ];
-              mountpoint = "/nix";
+          type = "gpt";
+          partitions.primary = {
+            size = "100%";
+            content = {
+              type = "btrfs";
+              extraArgs = [ "-f" ]; # Override existing partition
+              subvolumes = {
+                "/root" = {
+                  mountpoint = "/";
+                };
+                "/persist" = {
+                  mountpoint = "/persist";
+                };
+                "/nix" = {
+                  mountOptions = [ "noatime" ];
+                  mountpoint = "/nix";
+                };
+              };
+              mountpoint = "/partition-root";
             };
           };
-          mountpoint = "/partition-root";
         };
       };
     };
