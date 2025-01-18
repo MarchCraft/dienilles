@@ -9,5 +9,8 @@
     ./traefik.nix
     ./node_exporter
     ./mailcow
+    ./headscale
+    ./lingerie
+    ./pterodactyl
   ];
 }

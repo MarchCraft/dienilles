@@ -19,8 +19,8 @@
         ephemeral = true;
         autoStart = true;
         privateNetwork = true;
-        hostAddress = "192.168.115.10";
-        localAddress = "192.168.115.11";
+        hostAddress = "192.168.101.10";
+        localAddress = "192.168.101.11";
         bindMounts = {
           "resolv" = {
             hostPath = "/etc/resolv.conf";

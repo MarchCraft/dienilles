@@ -64,8 +64,8 @@
         ephemeral = true;
         autoStart = true;
         privateNetwork = true;
-        hostAddress = "192.168.111.10";
-        localAddress = "192.168.111.11";
+        hostAddress = "192.168.100.10";
+        localAddress = "192.168.100.11";
 
         bindMounts = {
           "secret" = {

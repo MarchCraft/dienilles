@@ -5,8 +5,8 @@
 , ...
 }:
 {
-  options.dienilles.services.vaultwarden = {
-    enable = lib.mkEnableOption "setup vaultwarden";
+  options.dienilles.services.headscale = {
+    enable = lib.mkEnableOption "setup headscale";
     secretsFile = lib.mkOption {
       type = lib.types.path;
       description = "path to the sops secret file for the vaultwarden website Server";
@@ -18,56 +18,53 @@
 
   config =
     let
-      opts = config.dienilles.services.vaultwarden;
+      opts = config.dienilles.services.headscale;
     in
     lib.mkIf opts.enable {
-      sops.secrets.vaultwarden = {
+      sops.secrets.headscale = {
         sopsFile = opts.secretsFile;
         format = "binary";
         mode = "444";
       };
 
-      nix-tun.storage.persist.subvolumes."vaultwarden".directories = {
+      nix-tun.storage.persist.subvolumes."headscale".directories = {
         "/db" = {
-          owner = "${builtins.toString config.containers.vaultwarden.config.users.users.vaultwarden.uid}";
+          owner = "${builtins.toString config.containers.headscale.config.users.users.headscale.uid}";
           mode = "0700";
         };
       };
 
-      dienilles.services.traefik.services."vaultwarden" = {
+      dienilles.services.traefik.services."headscale" = {
         router = {
           rule = "Host(`${opts.hostname}`)";
         };
-        healthCheck = {
-          enable = true;
-        };
-        servers = [ "http://${config.containers.vaultwarden.config.networking.hostName}:8222" ];
+        servers = [ "http://${config.containers.headscale.config.networking.hostName}:8080" ];
       };
 
-      containers.vaultwarden = {
+      containers.headscale = {
         ephemeral = true;
         autoStart = true;
         privateNetwork = true;
-        hostAddress = "192.168.104.10";
-        localAddress = "192.168.104.11";
+        hostAddress = "192.168.105.10";
+        localAddress = "192.168.105.11";
         bindMounts = {
           "resolv" = {
             hostPath = "/etc/resolv.conf";
             mountPoint = "/etc/resolv.conf";
           };
           "secret" = {
-            hostPath = config.sops.secrets.vaultwarden.path;
-            mountPoint = config.sops.secrets.vaultwarden.path;
+            hostPath = config.sops.secrets.headscale.path;
+            mountPoint = config.sops.secrets.headscale.path;
           };
           "db" = {
-            hostPath = "${config.nix-tun.storage.persist.path}/vaultwarden/db";
-            mountPoint = "/var/lib/bitwarden_rs";
+            hostPath = "${config.nix-tun.storage.persist.path}/headscale/db";
+            mountPoint = "/var/lib/headscale";
             isReadOnly = false;
           };
         };
 
         specialArgs = {
-          inherit inputs pkgs;
+          inherit inputs;
           host-config = config;
         };
 

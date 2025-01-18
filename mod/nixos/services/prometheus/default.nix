@@ -59,8 +59,8 @@
         ephemeral = true;
         autoStart = true;
         privateNetwork = true;
-        hostAddress = "192.168.109.10";
-        localAddress = "192.168.109.11";
+        hostAddress = "192.168.103.10";
+        localAddress = "192.168.103.11";
 
         bindMounts = {
           "db" = {

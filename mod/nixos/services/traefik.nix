@@ -1,6 +1,7 @@
 { config
 , pkgs
 , sops
+, pkgs-master
 , lib
 , ...
 }:
@@ -211,6 +212,7 @@
       in
       {
         enable = true;
+        package = pkgs-master.traefik;
 
         environmentFiles = [ config.sops.secrets.traefik_static.path ];
 

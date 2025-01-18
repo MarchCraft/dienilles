@@ -93,6 +93,25 @@
     webmailHostname = "mail.marchcraft.de";
   };
 
+  dienilles.services.headscale = {
+    enable = true;
+    hostname = "vpn.dev.dienilles.de";
+    secretsFile = ../secrets/headscale;
+  };
+
+  dienilles.services.lingerie-wp = {
+    enable = false;
+    hostname = "lingerie-nilles.de";
+    envFile = ../secrets/lingerie-wp/env;
+    mariaEnvFile = ../secrets/lingerie-wp/mariaEnv;
+  };
+
+  dienilles.services.pterodactyl = {
+    enable = true;
+    envFile = ../secrets/pterodactyl/env;
+    envFilePanel = ../secrets/pterodactyl/panel;
+  };
+
   security.pam.sshAgentAuth.enable = true;
 
   dienilles.users = {
