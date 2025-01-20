@@ -60,9 +60,9 @@
       virtualisation.oci-containers.containers."lingerie-wp-lingerie-wp-db" = {
         image = "mysql:5.7";
         environment = {
-          "MYSQL_DATABASE" = "lingerie-wpdb";
+          "MYSQL_DATABASE" = "wordpress";
           "MYSQL_RANDOM_ROOT_PASSWORD" = "1";
-          "MYSQL_USER" = "lingerie-wp";
+          "MYSQL_USER" = "wordpress";
         };
         environmentFiles = [ config.sops.secrets.lingerie-wp_mariadb.path ];
         volumes = [
@@ -100,13 +100,13 @@
         image = "wordpress:latest";
         environment = {
           "WORDPRESS_DB_HOST" = "lingerie-wp-db";
-          "WORDPRESS_DB_NAME" = "lingerie-wpdb";
-          "WORDPRESS_DB_USER" = "lingerie-wp";
+          "WORDPRESS_DB_NAME" = "wordpress";
+          "WORDPRESS_DB_USER" = "wordpress";
         };
         labels = {
           "traefik.enable" = "true";
           "traefik.http.routers.lingerie-wp.entrypoints" = "websecure";
-          "traefik.http.routers.lingerie-wp.rule" = "Host(`lingerie-wp.inphima.de`) || Host(`${opts.hostname}`) || Host(`www.${opts.hostname}`)";
+          "traefik.http.routers.lingerie-wp.rule" = "Host(`lingerie-nilles.de`)";
           "traefik.http.routers.lingerie-wp.tls" = "true";
           "traefik.http.routers.lingerie-wp.tls.certresolver" = "letsencrypt";
           "traefik.http.services.lingerie-wp.loadbalancer.server.port" = "80";

@@ -82,7 +82,7 @@
         cmd = [ "--default-authentication-plugin=mysql_native_password" ];
         log-driver = "journald";
         extraOptions = [
-          "--network-alias=database"
+          "--network-alias=pt-database"
           "--network=ptero0"
         ];
       };
@@ -115,7 +115,7 @@
           "APP_TIMEZONE" = "Europe/Berlin";
           "APP_URL" = "https://minecraft.marchcraft.de";
           "CACHE_DRIVER" = "redis";
-          "DB_HOST" = "database";
+          "DB_HOST" = "pt-database";
           "DB_PORT" = "3306";
           "QUEUE_DRIVER" = "redis";
           "REDIS_HOST" = "cache";
@@ -137,7 +137,7 @@
         };
         log-driver = "journald";
         extraOptions = [
-          "--dns=185.12.64.2"
+          "--dns=185.12.64.1"
           "--network-alias=panel"
           "--network=ptero0"
         ];
@@ -177,9 +177,6 @@
           "/var/lib/pterodactyl:/var/lib/pterodactyl:rw"
           "/var/log/pterodactyl:/var/log/pterodactyl:rw"
           "/var/run/docker.sock:/var/run/docker.sock:rw"
-        ];
-        ports = [
-          "2022:2022/tcp"
         ];
         labels = {
           "traefik.enable" = "true";
@@ -225,7 +222,7 @@
           ExecStop = "docker network rm -f ptero0";
         };
         script = ''
-          docker network inspect ptero0 || docker network create ptero0 --driver=bridge --opt=com.docker.network.bridge.name=ptero0 --subnet=192.55.0.0/16
+          docker network inspect ptero0 || docker network create ptero0 --driver=bridge --opt=com.docker.network.bridge.name=ptero0 --subnet=192.56.0.0/16
         '';
         partOf = [ "docker-compose-pterodactyl-root.target" ];
         wantedBy = [ "docker-compose-pterodactyl-root.target" ];

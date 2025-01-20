@@ -135,7 +135,7 @@
           "ENABLE_SSL_SNI" = "n";
           "LE_STAGING" = "n";
           "LOG_LINES" = "9999";
-          "MAILCOW_HOSTNAME" = "mail.marchcraft.de";
+          "MAILCOW_HOSTNAME" = "email.dienilles.de";
           "ONLY_MAILCOW_HOSTNAME" = "n";
           "REDIS_SLAVEOF_IP" = "";
           "REDIS_SLAVEOF_PORT" = "";
@@ -160,6 +160,7 @@
         log-driver = "journald";
         extraOptions = [
           "--dns=172.22.1.254"
+          "--dns=185.12.64.1"
           "--network-alias=acme"
           "--network-alias=acme-mailcow"
           "--network=mailcow_mailcow-network"
@@ -201,6 +202,7 @@
         log-driver = "journald";
         extraOptions = [
           "--dns=172.22.1.254"
+          "--dns=185.12.64.1"
           "--network-alias=clamd"
           "--network-alias=clamd-mailcow"
           "--network=mailcow_mailcow-network"
@@ -240,6 +242,7 @@
         log-driver = "journald";
         extraOptions = [
           "--dns=172.22.1.254"
+          "--dns=185.12.64.1"
           "--network-alias=dockerapi"
           "--network-alias=dockerapi-mailcow"
           "--network=mailcow_mailcow-network"
@@ -280,7 +283,7 @@
           "FLATCURVE_EXPERIMENTAL" = "n";
           "IPV4_NETWORK" = "172.22.1";
           "LOG_LINES" = "9999";
-          "MAILCOW_HOSTNAME" = "mail.marchcraft.de";
+          "MAILCOW_HOSTNAME" = "email.dienilles.de";
           "MAILCOW_PASS_SCHEME" = "BLF-CRYPT";
           "MAILCOW_REPLICA_IP" = "";
           "MAILDIR_GC_TIME" = "7200";
@@ -343,6 +346,7 @@
         extraOptions = [
           "--cap-add=NET_BIND_SERVICE"
           "--dns=172.22.1.254"
+          "--dns=185.12.64.1"
           "--ip=172.22.1.250"
           "--network-alias=dovecot"
           "--network-alias=dovecot-mailcow"
@@ -546,7 +550,7 @@
           "HTTPS_PORT" = "443";
           "HTTP_PORT" = "80";
           "IPV4_NETWORK" = "172.22.1";
-          "MAILCOW_HOSTNAME" = "mail.marchcraft.de";
+          "MAILCOW_HOSTNAME" = "email.dienilles.de";
           "SKIP_SOGO" = "n";
           "TZ" = "Europe/Berlin";
         };
@@ -576,6 +580,7 @@
         log-driver = "journald";
         extraOptions = [
           "--dns=172.22.1.254"
+          "--dns=185.12.64.1"
           "--network-alias=nginx"
           "--network-alias=nginx-mailcow"
           "--network=mailcow_mailcow-network"
@@ -705,7 +710,7 @@
           "IPV4_NETWORK" = "172.22.1";
           "IPV6_NETWORK" = "fd4d:6169:6c63:6f77::/64";
           "LOG_LINES" = "9999";
-          "MAILCOW_HOSTNAME" = "mail.marchcraft.de";
+          "MAILCOW_HOSTNAME" = "email.dienilles.de";
           "MAILCOW_PASS_SCHEME" = "BLF-CRYPT";
           "MASTER" = "y";
           "POPS_PORT" = "995";
@@ -749,6 +754,7 @@
         log-driver = "journald";
         extraOptions = [
           "--dns=172.22.1.254"
+          "--dns=185.12.64.1"
           "--network-alias=php-fpm-mailcow"
           "--network-alias=phpfpm"
           "--network=mailcow_mailcow-network"
@@ -781,7 +787,7 @@
           "DBPASS" = "eEofEWbWWcB5gOW62YkFkvV7mSXR";
           "DBUSER" = "mailcow";
           "LOG_LINES" = "9999";
-          "MAILCOW_HOSTNAME" = "mail.marchcraft.de";
+          "MAILCOW_HOSTNAME" = "email.dienilles.de";
           "REDIS_SLAVEOF_IP" = "";
           "REDIS_SLAVEOF_PORT" = "";
           "SPAMHAUS_DQS_KEY" = "";
@@ -809,6 +815,7 @@
         extraOptions = [
           "--cap-add=NET_BIND_SERVICE"
           "--dns=172.22.1.254"
+          "--dns=185.12.64.1"
           "--ip=172.22.1.253"
           "--network-alias=postfix"
           "--network-alias=postfix-mailcow"
@@ -906,6 +913,7 @@
         log-driver = "journald";
         extraOptions = [
           "--dns=172.22.1.254"
+          "--dns=185.12.64.1"
           "--hostname=rspamd"
           "--network-alias=rspamd"
           "--network-alias=rspamd-mailcow"
@@ -941,7 +949,7 @@
           "DBUSER" = "mailcow";
           "IPV4_NETWORK" = "172.22.1";
           "LOG_LINES" = "9999";
-          "MAILCOW_HOSTNAME" = "mail.marchcraft.de";
+          "MAILCOW_HOSTNAME" = "email.dienilles.de";
           "MAILCOW_PASS_SCHEME" = "BLF-CRYPT";
           "MASTER" = "y";
           "REDIS_SLAVEOF_IP" = "";
@@ -976,6 +984,7 @@
         log-driver = "journald";
         extraOptions = [
           "--dns=172.22.1.254"
+          "--dns=185.12.64.1"
           "--ip=172.22.1.248"
           "--network-alias=sogo"
           "--network-alias=sogo-mailcow"
@@ -1059,6 +1068,7 @@
         log-driver = "journald";
         extraOptions = [
           "--ip=172.22.1.254"
+          "--dns=185.12.64.1"
           "--network-alias=unbound"
           "--network-alias=unbound-mailcow"
           "--network=mailcow_mailcow-network"
@@ -1102,7 +1112,7 @@
           "IPV6_NETWORK" = "fd4d:6169:6c63:6f77::/64";
           "IP_BY_DOCKER_API" = "0";
           "LOG_LINES" = "9999";
-          "MAILCOW_HOSTNAME" = "mail.marchcraft.de";
+          "MAILCOW_HOSTNAME" = "email.dienilles.de";
           "MAILQ_CRIT" = "30";
           "MAILQ_THRESHOLD" = "20";
           "MYSQL_REPLICATION_THRESHOLD" = "1";
@@ -1150,6 +1160,7 @@
         log-driver = "journald";
         extraOptions = [
           "--dns=172.22.1.254"
+          "--dns=185.12.64.1"
           "--network-alias=watchdog"
           "--network-alias=watchdog-mailcow"
           "--network=mailcow_mailcow-network"
@@ -1185,7 +1196,7 @@
           ExecStop = "docker network rm -f mailcow_mailcow-network";
         };
         script = ''
-          docker network inspect mailcow_mailcow-network || docker network create mailcow_mailcow-network --driver=bridge --opt=com.docker.network.bridge.name=br-mailcow --subnet=172.22.1.0/24 --subnet=fd4d:6169:6c63:6f77::/64
+          docker network inspect mailcow_mailcow-network || docker network create mailcow_mailcow-network --driver=bridge --opt=com.docker.network.bridge.name=br-mailcow --subnet=172.22.1.0/24 --subnet=fd4d:6169:6c63:6f77::/64 -ipv6=false
         '';
         partOf = [ "docker-compose-mailcow-root.target" ];
         wantedBy = [ "docker-compose-mailcow-root.target" ];

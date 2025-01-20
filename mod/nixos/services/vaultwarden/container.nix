@@ -11,10 +11,11 @@
     enable = true;
     environmentFile = host-config.sops.secrets.vaultwarden.path;
     config = {
-      DOMAIN = "https://vaultwarden.dev.dienilles.de";
+      DOMAIN = "https://pass.dienilles.de";
       SIGNUPS_ALLOWED = false;
       ROCKET_ADDRESS = "0.0.0.0";
       ROCKET_PORT = 8222;
+      ORG_CREATION_USERS = "all";
 
       ROCKET_LOG = "critical";
 
@@ -22,9 +23,9 @@
       SMTP_PORT = 465;
       SMTP_SECURITY = "force_tls";
 
-      SMTP_FROM = "noreply@dienilles.de";
+      SMTP_FROM = "felix@marchcraft.de";
       SMTP_FROM_NAME = "DieNilles Password Manager";
-      SMTP_USERNAME = "felix@dienilles.de";
+      SMTP_USERNAME = "felix@marchcraft.de";
     };
   };
 

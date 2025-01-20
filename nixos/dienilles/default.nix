@@ -9,7 +9,6 @@
   imports = [
     ./hardware-configuration.nix
     ../locale.nix
-    ./disko-config.nix
 
     inputs.sops.nixosModules.sops
     inputs.nix-tun.nixosModules.nix-tun
@@ -26,7 +25,7 @@
   networking.nat = {
     enable = true;
     internalInterfaces = [ "ve-+" ];
-    externalInterface = "enp1s0"; #TODO:change on deploy
+    externalInterface = "enp5s0"; #TODO:change on deploy
     # Lazy IPv6 connectivity for the container
     enableIPv6 = true;
   };
@@ -53,7 +52,7 @@
 
   dienilles.services.traefik.enable = true;
   dienilles.services.traefik.staticConfigPath = ../secrets/traefik_static;
-  dienilles.services.traefik.dashboardUrl = "traefik.dev.dienilles.de";
+  dienilles.services.traefik.dashboardUrl = "traefik.dienilles.de";
   dienilles.services.traefik.letsencryptMail = "felix@dienilles.de";
   dienilles.services.traefik.logging.enable = true;
 
@@ -62,14 +61,14 @@
 
   dienilles.services.authentik = {
     enable = true;
-    hostname = "auth.dev.dienilles.de";
+    hostname = "auth.dienilles.de";
     envFile = ../secrets/authentik_env;
   };
 
   dienilles.services.prometheus = {
     enable = true;
-    hostname = "prometheus.dev.dienilles.de";
-    grafanaHostname = "grafana.dev.dienilles.de";
+    hostname = "prometheus.dienilles.de";
+    grafanaHostname = "grafana.dienilles.de";
     envFile = ../secrets/prometheus_env;
   };
 
@@ -80,27 +79,27 @@
   dienilles.services.vaultwarden = {
     enable = true;
     secretsFile = ../secrets/vaultwarden;
-    hostname = "vaultwarden.dev.dienilles.de";
+    hostname = "pass.dienilles.de";
   };
 
   dienilles.services.ntfy = {
     enable = true;
-    hostname = "ntfy.dev.dienilles.de";
+    hostname = "ntfy.dienilles.de";
   };
 
   dienilles.services.mailcow = {
     enable = true;
-    webmailHostname = "mail.marchcraft.de";
+    webmailHostname = "email.dienilles.de";
   };
 
   dienilles.services.headscale = {
     enable = true;
-    hostname = "vpn.dev.dienilles.de";
+    hostname = "vpn.dienilles.de";
     secretsFile = ../secrets/headscale;
   };
 
   dienilles.services.lingerie-wp = {
-    enable = false;
+    enable = true;
     hostname = "lingerie-nilles.de";
     envFile = ../secrets/lingerie-wp/env;
     mariaEnvFile = ../secrets/lingerie-wp/mariaEnv;

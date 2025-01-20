@@ -18,9 +18,9 @@
         nameservers.split."lingerie.local" = "100.64.0.4";
       };
       oidc = {
-        issuer = "https://auth.dev.dienilles.de/application/o/headscale/";
+        issuer = "https://auth.dienilles.de/application/o/headscale/";
         client_secret_path = "/run/secrets/headscale";
-        client_id = "Ra3CfDLMpscnqiQQs8fgbSWNgbA6cHhcBTZIcgGo";
+        client_id = "pPUyvRWLduf7nFSaAqvzLvMa7YbEK3jYufQwtwZ9";
         scope = [ "openid" "profile" "email" "offline_access" ];
       };
     };

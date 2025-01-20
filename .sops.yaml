@@ -1,9 +1,9 @@
 keys:
   - &Felix-yubikey 499C66E9512BA96797CDAC410562840F5B0C9BD4
-  - &dienilles-test 5155180f1b0e37eb03d8ed6dc8699f17c06705a6
+  - &dienilles ca86ce346bdde0b88373f3c24a2744c2492ec4c8
 creation_rules:
   - path_regex: nixos/secrets/.*
     key_groups:
     - pgp:
         - *Felix-yubikey
-        - *dienilles-test
+        - *dienilles
