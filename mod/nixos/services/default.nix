@@ -12,5 +12,6 @@
     ./headscale
     ./lingerie
     ./pterodactyl
+    ./nextcloud
   ];
 }

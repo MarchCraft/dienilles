@@ -1,9 +1,10 @@
-{ inputs
-, outputs
-, config
-, pkgs
-, lib
-, ...
+{
+  inputs,
+  outputs,
+  config,
+  pkgs,
+  lib,
+  ...
 }:
 {
   imports = [
@@ -25,7 +26,7 @@
   networking.nat = {
     enable = true;
     internalInterfaces = [ "ve-+" ];
-    externalInterface = "enp5s0"; #TODO:change on deploy
+    externalInterface = "enp5s0"; # TODO:change on deploy
     # Lazy IPv6 connectivity for the container
     enableIPv6 = true;
   };
@@ -109,6 +110,12 @@
     enable = true;
     envFile = ../secrets/pterodactyl/env;
     envFilePanel = ../secrets/pterodactyl/panel;
+  };
+
+  dienilles.services.nextcloud = {
+    enable = true;
+    hostname = "nextcloud.marchcraft.de";
+    secretsFile = ../secrets/nextcloud.yml;
   };
 
   security.pam.sshAgentAuth.enable = true;
