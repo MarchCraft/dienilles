@@ -57,6 +57,11 @@
   dienilles.services.traefik.letsencryptMail = "felix@dienilles.de";
   dienilles.services.traefik.logging.enable = true;
 
+  dienilles.services.traefik.redirects.dienilles = {
+    from = "dienilles.de";
+    to = "email.dienilles.de";
+  };
+
   # Services
   nix-tun.storage.persist.enable = true;
 

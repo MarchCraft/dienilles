@@ -1,8 +1,9 @@
-{ lib
-, inputs
-, pkgs
-, host-config
-, ...
+{
+  lib,
+  inputs,
+  pkgs,
+  host-config,
+  ...
 }:
 {
   networking.hostName = "headscale";
@@ -15,13 +16,18 @@
       server_url = "https://${host-config.dienilles.services.headscale.hostname}";
       dns = {
         base_domain = "tailnet";
-        nameservers.split."lingerie.local" = "100.64.0.4";
+        nameservers.split."lingerie.local" = "100.64.0.14";
       };
       oidc = {
         issuer = "https://auth.dienilles.de/application/o/headscale/";
         client_secret_path = "/run/secrets/headscale";
         client_id = "pPUyvRWLduf7nFSaAqvzLvMa7YbEK3jYufQwtwZ9";
-        scope = [ "openid" "profile" "email" "offline_access" ];
+        scope = [
+          "openid"
+          "profile"
+          "email"
+          "offline_access"
+        ];
       };
     };
   };

@@ -1,9 +1,10 @@
-{ config
-, pkgs
-, sops
-, pkgs-master
-, lib
-, ...
+{
+  config,
+  pkgs,
+  sops,
+  pkgs-master,
+  lib,
+  ...
 }:
 {
   options.dienilles.services.traefik = {
@@ -55,14 +56,6 @@
       default = {
         web = {
           port = 80;
-          http = {
-            redirections = {
-              entryPoint = {
-                to = "websecure";
-                scheme = "https";
-              };
-            };
-          };
         };
         websecure = {
           port = 443;
@@ -177,11 +170,9 @@
     };
 
     users.users.traefik.extraGroups = [ "docker" ];
-    networking.firewall.allowedTCPPorts = lib.attrsets.mapAttrsToList
-      (
-        name: value: value.port
-      )
-      config.dienilles.services.traefik.entrypoints;
+    networking.firewall.allowedTCPPorts = lib.attrsets.mapAttrsToList (
+      name: value: value.port
+    ) config.dienilles.services.traefik.entrypoints;
 
     sops.secrets.traefik_static = {
       sopsFile = config.dienilles.services.traefik.staticConfigPath;
@@ -219,32 +210,28 @@
         dynamicConfigOptions = {
           http = {
             routers =
-              (lib.attrsets.mapAttrs
-                (
-                  name: value:
-                    lib.mkMerge [
-                      {
-                        rule = value.router.rule;
-                        priority = value.router.priority;
-                        middlewares = value.router.middlewares;
-                        service = name;
-                        entryPoints = value.router.entryPoints;
-                      }
-                      (lib.mkIf value.router.tls.enable {
-                        tls = value.router.tls.options;
-                      })
-                    ]
-                )
-                config.dienilles.services.traefik.services)
-              // lib.attrsets.mapAttrs
-                (name: value: {
-                  service = "blank";
-                  priority = 10;
-                  rule = "Host(`${builtins.replaceStrings [ "." ] [ "\." ] value.from}`)";
-                  middlewares = name;
-                  tls.certResolver = "letsencrypt";
-                })
-                config.dienilles.services.traefik.redirects
+              (lib.attrsets.mapAttrs (
+                name: value:
+                lib.mkMerge [
+                  {
+                    rule = value.router.rule;
+                    priority = value.router.priority;
+                    middlewares = value.router.middlewares;
+                    service = name;
+                    entryPoints = value.router.entryPoints;
+                  }
+                  (lib.mkIf value.router.tls.enable {
+                    tls = value.router.tls.options;
+                  })
+                ]
+              ) config.dienilles.services.traefik.services)
+              // lib.attrsets.mapAttrs (name: value: {
+                service = "blank";
+                priority = 10;
+                rule = "Host(`${builtins.replaceStrings [ "." ] [ "\." ] value.from}`)";
+                middlewares = name;
+                tls.certResolver = "letsencrypt";
+              }) config.dienilles.services.traefik.redirects
               // {
                 dashboard = {
                   rule = "Host(`${config.dienilles.services.traefik.dashboardUrl}`)";
@@ -255,15 +242,13 @@
                 };
               };
             middlewares =
-              lib.attrsets.mapAttrs
-                (name: value: {
-                  redirectRegex = {
-                    regex = "(www\\.)?${builtins.replaceStrings [ "." ] [ "\." ] value.from}/?";
-                    replacement = value.to;
-                    permanent = true;
-                  };
-                })
-                config.dienilles.services.traefik.redirects
+              lib.attrsets.mapAttrs (name: value: {
+                redirectRegex = {
+                  regex = "(www\\.)?${builtins.replaceStrings [ "." ] [ "\." ] value.from}/?";
+                  replacement = value.to;
+                  permanent = true;
+                };
+              }) config.dienilles.services.traefik.redirects
               // {
                 authentik.forwardAuth = {
                   address = "https://authentik:9443/outpost.goauthentik.io/auth/traefik";
@@ -285,25 +270,21 @@
                 };
               };
             services =
-              lib.attrsets.mapAttrs
-                (name: value: {
-                  loadBalancer = lib.mkMerge [
-                    {
-                      servers = builtins.map
-                        (value: {
-                          url = value;
-                        })
-                        value.servers;
-                    }
-                    (lib.mkIf value.healthCheck.enable {
-                      healthCheck = {
-                        path = value.healthCheck.path;
-                        interval = value.healthCheck.interval;
-                      };
-                    })
-                  ];
-                })
-                config.dienilles.services.traefik.services
+              lib.attrsets.mapAttrs (name: value: {
+                loadBalancer = lib.mkMerge [
+                  {
+                    servers = builtins.map (value: {
+                      url = value;
+                    }) value.servers;
+                  }
+                  (lib.mkIf value.healthCheck.enable {
+                    healthCheck = {
+                      path = value.healthCheck.path;
+                      interval = value.healthCheck.interval;
+                    };
+                  })
+                ];
+              }) config.dienilles.services.traefik.services
               // {
                 blank = {
                   loadBalancer = {
@@ -350,24 +331,20 @@
             };
           };
 
-          entryPoints =
-            lib.attrsets.filterAttrs (n: v: n != "port")
-              (
-                lib.attrsets.mapAttrs
-                  (
-                    name: value:
-                      lib.attrsets.mergeAttrsList [
-                        {
-                          address = ":${toString value.port}";
-                        }
-                        value
-                        {
-                          port = null;
-                        }
-                      ]
-                  )
-                  config.dienilles.services.traefik.entrypoints
-              );
+          entryPoints = lib.attrsets.filterAttrs (n: v: n != "port") (
+            lib.attrsets.mapAttrs (
+              name: value:
+              lib.attrsets.mergeAttrsList [
+                {
+                  address = ":${toString value.port}";
+                }
+                value
+                {
+                  port = null;
+                }
+              ]
+            ) config.dienilles.services.traefik.entrypoints
+          );
           api = {
             dashboard = true;
           };

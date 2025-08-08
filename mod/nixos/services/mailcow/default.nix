@@ -1,7 +1,8 @@
-{ lib
-, config
-, pkgs
-, ...
+{
+  lib,
+  config,
+  pkgs,
+  ...
 }:
 {
   options.dienilles.services.mailcow =
@@ -320,22 +321,29 @@
         ];
         labels = {
           "ofelia.enabled" = "true";
-          "ofelia.job-exec.dovecot_clean_q_aged.command" = "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu vmail /usr/local/bin/clean_q_aged.sh || exit 0\"";
+          "ofelia.job-exec.dovecot_clean_q_aged.command" =
+            "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu vmail /usr/local/bin/clean_q_aged.sh || exit 0\"";
           "ofelia.job-exec.dovecot_clean_q_aged.schedule" = "@every 24h";
-          "ofelia.job-exec.dovecot_fts.command" = "/bin/bash -c \"/usr/local/bin/gosu vmail /usr/local/bin/optimize-fts.sh\"";
+          "ofelia.job-exec.dovecot_fts.command" =
+            "/bin/bash -c \"/usr/local/bin/gosu vmail /usr/local/bin/optimize-fts.sh\"";
           "ofelia.job-exec.dovecot_fts.schedule" = "@every 24h";
-          "ofelia.job-exec.dovecot_imapsync_runner.command" = "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu nobody /usr/local/bin/imapsync_runner.pl || exit 0\"";
+          "ofelia.job-exec.dovecot_imapsync_runner.command" =
+            "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu nobody /usr/local/bin/imapsync_runner.pl || exit 0\"";
           "ofelia.job-exec.dovecot_imapsync_runner.no-overlap" = "true";
           "ofelia.job-exec.dovecot_imapsync_runner.schedule" = "@every 1m";
-          "ofelia.job-exec.dovecot_maildir_gc.command" = "/bin/bash -c \"source /source_env.sh ; /usr/local/bin/gosu vmail /usr/local/bin/maildir_gc.sh\"";
+          "ofelia.job-exec.dovecot_maildir_gc.command" =
+            "/bin/bash -c \"source /source_env.sh ; /usr/local/bin/gosu vmail /usr/local/bin/maildir_gc.sh\"";
           "ofelia.job-exec.dovecot_maildir_gc.schedule" = "@every 30m";
-          "ofelia.job-exec.dovecot_quarantine.command" = "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu vmail /usr/local/bin/quarantine_notify.py || exit 0\"";
+          "ofelia.job-exec.dovecot_quarantine.command" =
+            "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu vmail /usr/local/bin/quarantine_notify.py || exit 0\"";
           "ofelia.job-exec.dovecot_quarantine.schedule" = "@every 20m";
-          "ofelia.job-exec.dovecot_repl_health.command" = "/bin/bash -c \"/usr/local/bin/gosu vmail /usr/local/bin/repl_health.sh\"";
+          "ofelia.job-exec.dovecot_repl_health.command" =
+            "/bin/bash -c \"/usr/local/bin/gosu vmail /usr/local/bin/repl_health.sh\"";
           "ofelia.job-exec.dovecot_repl_health.schedule" = "@every 5m";
           "ofelia.job-exec.dovecot_sarules.command" = "/bin/bash -c \"/usr/local/bin/sa-rules.sh\"";
           "ofelia.job-exec.dovecot_sarules.schedule" = "@every 24h";
-          "ofelia.job-exec.dovecot_trim_logs.command" = "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu vmail /usr/local/bin/trim_logs.sh || exit 0\"";
+          "ofelia.job-exec.dovecot_trim_logs.command" =
+            "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu vmail /usr/local/bin/trim_logs.sh || exit 0\"";
           "ofelia.job-exec.dovecot_trim_logs.schedule" = "@every 1m";
         };
         dependsOn = [
@@ -571,7 +579,11 @@
           "${config.nix-tun.storage.persist.path}/mailcow/data/web:/web:ro,z"
           "${config.nix-tun.storage.persist.path}/mailcow/sogo-web:/usr/lib/GNUstep/SOGo:rw"
         ];
-        cmd = [ "/bin/sh" "-c" "envsubst < /etc/nginx/conf.d/templates/listen_plain.template > /etc/nginx/conf.d/listen_plain.active && envsubst < /etc/nginx/conf.d/templates/listen_ssl.template > /etc/nginx/conf.d/listen_ssl.active && envsubst < /etc/nginx/conf.d/templates/sogo.template > /etc/nginx/conf.d/sogo.active && . /etc/nginx/conf.d/templates/server_name.template.sh > /etc/nginx/conf.d/server_name.active && . /etc/nginx/conf.d/templates/sites.template.sh > /etc/nginx/conf.d/sites.active && . /etc/nginx/conf.d/templates/sogo_eas.template.sh > /etc/nginx/conf.d/sogo_eas.active && nginx -qt && until ping phpfpm -c1 > /dev/null; do sleep 1; done && until ping sogo -c1 > /dev/null; do sleep 1; done && until ping redis -c1 > /dev/null; do sleep 1; done && until ping rspamd -c1 > /dev/null; do sleep 1; done && exec nginx -g 'daemon off;'" ];
+        cmd = [
+          "/bin/sh"
+          "-c"
+          "envsubst < /etc/nginx/conf.d/templates/listen_plain.template > /etc/nginx/conf.d/listen_plain.active && envsubst < /etc/nginx/conf.d/templates/listen_ssl.template > /etc/nginx/conf.d/listen_ssl.active && envsubst < /etc/nginx/conf.d/templates/sogo.template > /etc/nginx/conf.d/sogo.active && . /etc/nginx/conf.d/templates/server_name.template.sh > /etc/nginx/conf.d/server_name.active && . /etc/nginx/conf.d/templates/sites.template.sh > /etc/nginx/conf.d/sites.active && . /etc/nginx/conf.d/templates/sogo_eas.template.sh > /etc/nginx/conf.d/sogo_eas.active && nginx -qt && until ping phpfpm -c1 > /dev/null; do sleep 1; done && until ping sogo -c1 > /dev/null; do sleep 1; done && until ping redis -c1 > /dev/null; do sleep 1; done && until ping rspamd -c1 > /dev/null; do sleep 1; done && exec nginx -g 'daemon off;'"
+        ];
         dependsOn = [
           "mailcow-php-fpm-mailcow"
           "mailcow-redis-mailcow"
@@ -615,7 +627,12 @@
         volumes = [
           "/var/run/docker.sock:/var/run/docker.sock:ro"
         ];
-        cmd = [ "daemon" "--docker" "-f" "label=com.docker.compose.project=mailcow" ];
+        cmd = [
+          "daemon"
+          "--docker"
+          "-f"
+          "label=com.docker.compose.project=mailcow"
+        ];
         labels = {
           "ofelia.enabled" = "true";
         };
@@ -747,7 +764,13 @@
           "${config.nix-tun.storage.persist.path}/mailcow/mysql-socket:/var/run/mysqld:rw"
           "${config.nix-tun.storage.persist.path}/mailcow/rspamd:/var/lib/rspamd:rw"
         ];
-        cmd = [ "php-fpm" "-d" "date.timezone=Europe/Berlin" "-d" "expose_php=0" ];
+        cmd = [
+          "php-fpm"
+          "-d"
+          "date.timezone=Europe/Berlin"
+          "-d"
+          "expose_php=0"
+        ];
         dependsOn = [
           "mailcow-redis-mailcow"
         ];
@@ -972,13 +995,17 @@
         ];
         labels = {
           "ofelia.enabled" = "true";
-          "ofelia.job-exec.sogo_backup.command" = "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu sogo /usr/sbin/sogo-tool backup /sogo_backup ALL || exit 0\"";
+          "ofelia.job-exec.sogo_backup.command" =
+            "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu sogo /usr/sbin/sogo-tool backup /sogo_backup ALL || exit 0\"";
           "ofelia.job-exec.sogo_backup.schedule" = "@every 24h";
-          "ofelia.job-exec.sogo_ealarms.command" = "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu sogo /usr/sbin/sogo-ealarms-notify -p /etc/sogo/cron.creds || exit 0\"";
+          "ofelia.job-exec.sogo_ealarms.command" =
+            "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu sogo /usr/sbin/sogo-ealarms-notify -p /etc/sogo/cron.creds || exit 0\"";
           "ofelia.job-exec.sogo_ealarms.schedule" = "@every 1m";
-          "ofelia.job-exec.sogo_eautoreply.command" = "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu sogo /usr/sbin/sogo-tool update-autoreply -p /etc/sogo/cron.creds || exit 0\"";
+          "ofelia.job-exec.sogo_eautoreply.command" =
+            "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu sogo /usr/sbin/sogo-tool update-autoreply -p /etc/sogo/cron.creds || exit 0\"";
           "ofelia.job-exec.sogo_eautoreply.schedule" = "@every 5m";
-          "ofelia.job-exec.sogo_sessions.command" = "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu sogo /usr/sbin/sogo-tool -v expire-sessions \${SOGO_EXPIRE_SESSION} || exit 0\"";
+          "ofelia.job-exec.sogo_sessions.command" =
+            "/bin/bash -c \"[[ \${MASTER} == y ]] && /usr/local/bin/gosu sogo /usr/sbin/sogo-tool -v expire-sessions \${SOGO_EXPIRE_SESSION} || exit 0\"";
           "ofelia.job-exec.sogo_sessions.schedule" = "@every 1m";
         };
         log-driver = "journald";
@@ -1127,7 +1154,7 @@
           "REDIS_THRESHOLD" = "5";
           "RSPAMD_THRESHOLD" = "5";
           "SKIP_CLAMD" = "n";
-          "SKIP_LETS_ENCRYPT" = "n";
+          "SKIP_LETS_ENCRYPT" = "y";
           "SKIP_SOGO" = "n";
           "SOGO_THRESHOLD" = "3";
           "TZ" = "Europe/Berlin";
