@@ -142,7 +142,7 @@
           "REDIS_SLAVEOF_PORT" = "";
           "SKIP_HTTP_VERIFICATION" = "n";
           "SKIP_IP_CHECK" = "n";
-          "SKIP_LETS_ENCRYPT" = "n";
+          "SKIP_LETS_ENCRYPT" = "y";
           "SNAT6_TO_SOURCE" = "n";
           "SNAT_TO_SOURCE" = "n";
           "TZ" = "Europe/Berlin";
