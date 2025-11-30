@@ -13,5 +13,6 @@
     ./lingerie
     ./pterodactyl
     ./nextcloud
+    ./knxsystems
   ];
 }
