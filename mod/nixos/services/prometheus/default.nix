@@ -1,8 +1,9 @@
-{ lib
-, config
-, pkgs
-, inputs
-, ...
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
 }:
 {
   options.dienilles.services.prometheus = {
@@ -46,13 +47,13 @@
 
       dienilles.services.traefik.services."prometheus" = {
         router.rule = "Host(`${opts.hostname}`)";
-        servers = [ "http://${config.containers.prometheus.config.networking.hostName}:9090" ];
+        servers = [ "http://${config.containers.prometheus.localAddress}:9090" ];
         healthCheck.enable = true;
       };
 
       dienilles.services.traefik.services."grafana" = {
         router.rule = "Host(`${opts.grafanaHostname}`)";
-        servers = [ "http://${config.containers.prometheus.config.networking.hostName}:80" ];
+        servers = [ "http://${config.containers.prometheus.localAddress}:80" ];
       };
 
       containers.prometheus = {

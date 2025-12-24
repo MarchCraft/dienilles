@@ -3,7 +3,6 @@
   config,
   inputs,
   pkgs,
-  pkgs-master2,
   ...
 }:
 {
@@ -43,7 +42,7 @@
         healthCheck = {
           enable = true;
         };
-        servers = [ "http://${config.containers.vaultwarden.config.networking.hostName}:8222" ];
+        servers = [ "http://${config.containers.vaultwarden.localAddress}:8222" ];
       };
 
       containers.vaultwarden = {
@@ -69,7 +68,7 @@
         };
 
         specialArgs = {
-          inherit inputs pkgs pkgs-master2;
+          inherit inputs pkgs;
           host-config = config;
         };
 

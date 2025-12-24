@@ -43,7 +43,7 @@
         router = {
           rule = "Host(`${opts.hostname}`)";
         };
-        servers = [ "http://${config.containers.nextcloud.config.networking.hostName}:80" ];
+        servers = [ "http://${config.containers.nextcloud.localAddress}:80" ];
       };
 
       containers.nextcloud = {
@@ -52,6 +52,7 @@
         privateNetwork = true;
         hostAddress = "192.168.106.10";
         localAddress = "192.168.106.11";
+        timeoutStartSec = "15min";
         bindMounts = {
           "resolv" = {
             hostPath = "/etc/resolv.conf";

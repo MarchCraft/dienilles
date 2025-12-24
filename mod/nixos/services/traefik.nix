@@ -2,7 +2,6 @@
   config,
   pkgs,
   sops,
-  pkgs-master,
   lib,
   ...
 }:
@@ -203,7 +202,6 @@
       in
       {
         enable = true;
-        package = pkgs-master.traefik;
 
         environmentFiles = [ config.sops.secrets.traefik_static.path ];
 
@@ -317,7 +315,7 @@
           ping = {
             entryPoint = "ping";
           };
-          log.level = "DEBUG";
+          log.level = "TRACE";
           accesslog = lib.mkIf config.dienilles.services.traefik.logging.enable {
             filePath = config.dienilles.services.traefik.logging.filePath;
           };
@@ -337,10 +335,6 @@
               lib.attrsets.mergeAttrsList [
                 {
                   address = ":${toString value.port}";
-                }
-                value
-                {
-                  port = null;
                 }
               ]
             ) config.dienilles.services.traefik.entrypoints

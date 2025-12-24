@@ -632,6 +632,7 @@
           "--docker"
           "-f"
           "label=com.docker.compose.project=mailcow"
+          "label=ofelia.enabled=true"
         ];
         labels = {
           "ofelia.enabled" = "true";
@@ -642,6 +643,8 @@
         ];
         log-driver = "journald";
         extraOptions = [
+          "--dns=172.22.1.254"
+          "--dns=185.12.64.1"
           "--network-alias=ofelia"
           "--network-alias=ofelia-mailcow"
           "--network=mailcow_mailcow-network"
@@ -1223,7 +1226,7 @@
           ExecStop = "docker network rm -f mailcow_mailcow-network";
         };
         script = ''
-          docker network inspect mailcow_mailcow-network || docker network create mailcow_mailcow-network --driver=bridge --opt=com.docker.network.bridge.name=br-mailcow --subnet=172.22.1.0/24 --subnet=fd4d:6169:6c63:6f77::/64 -ipv6=false
+          docker network inspect mailcow_mailcow-network || docker network create mailcow_mailcow-network --driver=bridge --opt=com.docker.network.bridge.name=br-mailcow --subnet=172.22.1.0/24 --subnet=fd4d:6169:6c63:6f77::/64
         '';
         partOf = [ "docker-compose-mailcow-root.target" ];
         wantedBy = [ "docker-compose-mailcow-root.target" ];

@@ -1,8 +1,9 @@
-{ lib
-, config
-, inputs
-, pkgs
-, ...
+{
+  lib,
+  config,
+  inputs,
+  pkgs,
+  ...
 }:
 {
   options.dienilles.services.ntfy = {
@@ -19,7 +20,7 @@
     lib.mkIf opts.enable {
       dienilles.services.traefik.services."ntfy" = {
         router.rule = "Host(`${opts.hostname}`)";
-        servers = [ "http://${config.containers.ntfy.config.networking.hostName}:8080" ];
+        servers = [ "http://${config.containers.ntfy.localAddress}:8080" ];
       };
 
       nix-tun.storage.persist.subvolumes."ntfy".directories = {

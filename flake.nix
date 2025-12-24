@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # NOTE: change channel in gitlab runner when updating this
-    nixpkgs-master.url = "github:nixos/nixpkgs/nixos-24.05";
 
     disko.url = "github:nix-community/disko";
 
@@ -16,10 +15,6 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-programs-sqlite = {
-      url = "github:wamserma/flake-programs-sqlite";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     authentik-nix = {
       url = "github:nix-community/authentik-nix";
@@ -27,7 +22,7 @@
     };
     colmena = {
       url = "github:zhaofengli/colmena";
-      inputs.nixpkgs.follows = "nixpkgs-master2";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -35,8 +30,8 @@
     {
       self,
       nixpkgs,
-      nixpkgs-master,
       colmena,
+      sops,
       ...
     }@inputs:
     let
@@ -48,15 +43,20 @@
         "aarch64-darwin"
       ];
 
-      lib = nixpkgs.lib;
+      lib = nixpkgs.lib.extend (
+        final: prev: {
+          dienilles = import ./lib.nix { lib = prev; };
+        }
+      );
 
-      forAllSystems = lib.genAttrs systems;
+      eachSystem = f: lib.genAttrs systems (system: f system nixpkgs.legacyPackages.${system});
+
+      specialArgs = {
+        inherit inputs outputs lib;
+      };
     in
     {
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
-
-      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
-      overlays = import ./overlays.nix { inherit inputs; };
+      formatter = eachSystem (_: pkgs: pkgs.nixfmt-tree);
 
       nixosModules.dienilles = import ./mod/nixos;
 
@@ -64,12 +64,7 @@
       colmena = {
         meta = {
           nixpkgs = import nixpkgs { system = "x86_64-linux"; };
-          specialArgs = {
-            inherit inputs outputs;
-            pkgs-master = import nixpkgs-master {
-              system = "x86_64-linux";
-            };
-          };
+          inherit specialArgs;
         };
 
         defaults.deployment = {
@@ -84,31 +79,21 @@
       };
 
       nixosConfigurations.dienilles = lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs;
-          pkgs-master = import nixpkgs-master {
-            system = "x86_64-linux";
-          };
-        };
+        inherit specialArgs;
         modules = [ ./nixos/dienilles ];
       };
 
-      devShells = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        {
+      devShells = eachSystem (
+        system: pkgs: {
           default = pkgs.mkShell {
             sopsPGPKeyDirs = [
               "${toString ./.}/nixos/keys/hosts"
               "${toString ./.}/nixos/keys/users"
             ];
 
-            nativeBuildInputs = with pkgs; [
-              (callPackage inputs.sops { }).sops-import-keys-hook
-              nixos-rebuild
-              colmena
+            nativeBuildInputs = [
+              sops.packages.${system}.sops-import-keys-hook
+              colmena.packages.${system}.colmena
             ];
           };
         }

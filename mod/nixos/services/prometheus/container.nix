@@ -1,7 +1,8 @@
-{ lib
-, host-config
-, pkgs
-, ...
+{
+  lib,
+  host-config,
+  pkgs,
+  ...
 }:
 let
   opts = host-config.dienilles.services.prometheus;
@@ -74,7 +75,7 @@ in
       server = {
         http_addr = "0.0.0.0";
         http_port = 80;
-        domain = "grafana.dev.dienilles.de";
+        domain = "grafana.dienilles.de";
       };
       "auth.generic_oauth" = {
         enabled = true;
@@ -91,10 +92,10 @@ in
         email_attribute_path = "email";
         login_attribute_path = "preferred_username";
         name_attribute_path = "given_name";
-        auth_url = "https://auth.dev.dienilles.de/application/o/authorize/";
-        token_url = "https://auth.dev.dienilles.de/application/o/token/";
-        api_url = "https://auth.dev.dienilles.de/application/o/userinfo/";
-        role_attribute_path = "contains(groups[*], 'admin') && 'Admin' || 'Editor'";
+        auth_url = "https://auth.dienilles.de/application/o/authorize/";
+        token_url = "https://auth.dienilles.de/application/o/token/";
+        api_url = "https://auth.dienilles.de/application/o/userinfo/";
+        role_attribute_path = "contains(groups[*], 'authentik Admins') && 'Admin' || 'Editor'";
       };
 
     };

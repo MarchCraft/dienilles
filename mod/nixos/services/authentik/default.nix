@@ -1,8 +1,9 @@
-{ lib
-, config
-, inputs
-, pkgs
-, ...
+{
+  lib,
+  config,
+  inputs,
+  pkgs,
+  ...
 }:
 {
   options.dienilles.services.authentik = {
@@ -26,7 +27,7 @@
         mode = "444";
       };
 
-      # setup authentik binary cache 
+      # setup authentik binary cache
       nix.settings = {
         substituters = [
           "https://nix-community.cachix.org"
@@ -46,8 +47,7 @@
           rule = "Host(`${opts.hostname}`)";
           priority = 10;
         };
-        servers = [ "http://${config.containers.authentik.config.networking.hostName}" ];
-        healthCheck.enable = true;
+        servers = [ "http://${config.containers.authentik.localAddress}" ];
       };
 
       dienilles.services.traefik.services."authentik_auth" = {
@@ -56,7 +56,7 @@
           priority = 15;
         };
         servers = [
-          "http://${config.containers.authentik.config.networking.hostName}:9000/outpost.goauthentik.io"
+          "http://${config.containers.authentik.localAddress}:9000/outpost.goauthentik.io"
         ];
       };
 

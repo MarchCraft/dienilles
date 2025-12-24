@@ -11,7 +11,7 @@
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud30;
+    package = pkgs.nextcloud32;
     hostName = host-config.dienilles.services.nextcloud.hostname;
     https = true;
     phpExtraExtensions =
@@ -28,7 +28,6 @@
     settings = {
       maintenance_window_start = 4; # run background jobs from 4 AM to 8 AM
       trusted_domains = [
-        "134.99.154.48"
         host-config.containers.nextcloud.localAddress
         host-config.containers.nextcloud.hostAddress
         host-config.dienilles.services.nextcloud.hostname

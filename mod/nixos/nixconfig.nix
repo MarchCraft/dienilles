@@ -1,15 +1,12 @@
-{ inputs
-, outputs
-, lib
-, config
-, pkgs
-, ...
+{
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
 }:
 {
-  imports = [
-    inputs.flake-programs-sqlite.nixosModules.programs-sqlite
-  ];
-
   options.dienilles.nixconfig = {
     enable = lib.mkOption {
       description = "auto configure nix";
@@ -26,8 +23,6 @@
     in
     {
       nixpkgs = {
-        overlays = builtins.attrValues outputs.overlays;
-
         config.allowUnfree = opts.allowUnfree;
       };
 

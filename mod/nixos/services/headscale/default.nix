@@ -1,8 +1,9 @@
-{ lib
-, config
-, inputs
-, pkgs
-, ...
+{
+  lib,
+  config,
+  inputs,
+  pkgs,
+  ...
 }:
 {
   options.dienilles.services.headscale = {
@@ -38,7 +39,7 @@
         router = {
           rule = "Host(`${opts.hostname}`)";
         };
-        servers = [ "http://${config.containers.headscale.config.networking.hostName}:8080" ];
+        servers = [ "http://${config.containers.headscale.localAddress}:8080" ];
       };
 
       containers.headscale = {

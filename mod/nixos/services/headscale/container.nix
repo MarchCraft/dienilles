@@ -17,6 +17,7 @@
       dns = {
         base_domain = "tailnet";
         nameservers.split."lingerie.local" = "100.64.0.14";
+        override_local_dns = false;
       };
       oidc = {
         issuer = "https://auth.dienilles.de/application/o/headscale/";
