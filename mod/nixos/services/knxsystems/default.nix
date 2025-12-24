@@ -107,7 +107,7 @@
         labels = {
           "traefik.enable" = "true";
           "traefik.http.routers.knxsystems-wp.entrypoints" = "websecure";
-          "traefik.http.routers.knxsystems-wp.rule" = "Host(`lingerie-nilles.de`)";
+          "traefik.http.routers.knxsystems-wp.rule" = "Host(`dev.knx-systems.de`)";
           "traefik.http.routers.knxsystems-wp.tls" = "true";
           "traefik.http.routers.knxsystems-wp.tls.certresolver" = "letsencrypt";
           "traefik.http.services.knxsystems-wp.loadbalancer.server.port" = "80";

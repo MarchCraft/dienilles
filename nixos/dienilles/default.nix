@@ -111,7 +111,7 @@
     mariaEnvFile = ../secrets/lingerie-wp/mariaEnv;
   };
 
-  dienilles.services.knxsytems-wp = {
+  dienilles.services.knxsystems-wp = {
     enable = true;
     hostname = "dev.knx-systems.de";
     envFile = ../secrets/knxsystems-wp/env;

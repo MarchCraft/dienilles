@@ -25,13 +25,19 @@
       url = "github:nix-community/authentik-nix";
       inputs.nixpkgs.follows = "nixpkgs"; # uses unstable internally
     };
+    colmena = {
+      url = "github:zhaofengli/colmena";
+      inputs.nixpkgs.follows = "nixpkgs-master2";
+    };
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , nixpkgs-master
-    , ...
+    {
+      self,
+      nixpkgs,
+      nixpkgs-master,
+      colmena,
+      ...
     }@inputs:
     let
       inherit (self) outputs;
@@ -54,6 +60,7 @@
 
       nixosModules.dienilles = import ./mod/nixos;
 
+      colmenaHive = colmena.lib.makeHive self.outputs.colmena;
       colmena = {
         meta = {
           nixpkgs = import nixpkgs { system = "x86_64-linux"; };
@@ -71,7 +78,7 @@
         };
 
         dienilles = {
-          deployment.targetHost = "dev.dienilles.de";
+          deployment.targetHost = "dienilles.de";
           imports = [ ./nixos/dienilles ];
         };
       };
@@ -108,4 +115,3 @@
       );
     };
 }
-

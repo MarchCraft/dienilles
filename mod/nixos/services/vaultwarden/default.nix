@@ -1,8 +1,10 @@
-{ lib
-, config
-, inputs
-, pkgs
-, ...
+{
+  lib,
+  config,
+  inputs,
+  pkgs,
+  pkgs-master2,
+  ...
 }:
 {
   options.dienilles.services.vaultwarden = {
@@ -67,7 +69,7 @@
         };
 
         specialArgs = {
-          inherit inputs pkgs;
+          inherit inputs pkgs pkgs-master2;
           host-config = config;
         };
 
