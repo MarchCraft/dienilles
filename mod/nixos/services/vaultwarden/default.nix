@@ -45,6 +45,13 @@
         servers = [ "http://${config.containers.vaultwarden.localAddress}:8222" ];
       };
 
+      dienilles.services.traefik.services."vaultwarden_fix" = {
+        router = {
+          rule = "Host(`${opts.hostname}`) && Path(`/api/tasks`)";
+        };
+        servers = [ "http://${config.containers.vaultwarden.localAddress}" ];
+      };
+
       containers.vaultwarden = {
         ephemeral = true;
         autoStart = true;

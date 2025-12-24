@@ -30,10 +30,25 @@
     };
   };
 
+  services.nginx = {
+    enable = true;
+
+    virtualHosts."_" = {
+      locations."= /api/tasks" = {
+        return = ''
+          200 '{"data":[],"object":"list"}'
+        '';
+      };
+    };
+  };
+
   networking = {
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 8222 ];
+      allowedTCPPorts = [
+        8222
+        80
+      ];
     };
     # Use systemd-resolved inside the container
     # Workaround for bug https://github.com/NixOS/nixpkgs/issues/162686
